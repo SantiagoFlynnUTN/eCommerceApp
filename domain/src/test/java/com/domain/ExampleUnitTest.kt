@@ -1,4 +1,4 @@
-package com.module
+package com.domain
 
 import org.junit.Test
 
