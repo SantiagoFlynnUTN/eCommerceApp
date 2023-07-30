@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace 'com.ecommerceapp'
+    namespace 'com.baseapp'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.ecommerceapp"
+        applicationId "com.baseapp"
         minSdk 24
         targetSdk 33
         versionCode 1

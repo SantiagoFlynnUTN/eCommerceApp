@@ -1,4 +1,4 @@
-package com.ecommerceapp
+package com.baseapp
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,11 +8,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.baseapp.ui.theme.BaseAppTheme
 import com.domain.HiltTestInterface
-import com.ecommerceapp.ui.theme.ECommerceAppTheme
+import com.domain.usecase.IFeedUseCase
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -22,16 +30,28 @@ class MainActivity : ComponentActivity() {
     @Named("hiltAppModule")
     protected lateinit var hiltTest: HiltTestInterface
 
+    @Inject
+    protected lateinit var feedUseCase: IFeedUseCase
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ECommerceAppTheme {
+            BaseAppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    Greeting("Android ${hiltTest.getString()}")
+                    var text by remember { mutableStateOf("") }
+
+                    LaunchedEffect(Unit) {
+                        val result = withContext(Dispatchers.IO) {
+                            feedUseCase().getOrNull()?.firstOrNull()?.name
+                        }
+                        text = result ?: ""
+                    }
+
+                    Greeting("Hello $text")
                 }
             }
         }
@@ -39,9 +59,9 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
+fun Greeting(text: String, modifier: Modifier = Modifier) {
     Text(
-        text = "Hello $name!",
+        text = text,
         modifier = modifier,
     )
 }
@@ -49,7 +69,7 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    ECommerceAppTheme {
+    BaseAppTheme {
         Greeting("Android")
     }
 }

@@ -1,7 +1,7 @@
-package com.ecommerceapp.di
+package com.baseapp.di
 
 import com.domain.HiltTestInterface
-import com.ecommerceapp.HiltTestClass
+import com.baseapp.HiltTestClass
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

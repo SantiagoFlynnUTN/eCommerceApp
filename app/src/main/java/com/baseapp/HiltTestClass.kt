@@ -1,4 +1,4 @@
-package com.ecommerceapp
+package com.baseapp
 
 import com.domain.HiltTestInterface
 
