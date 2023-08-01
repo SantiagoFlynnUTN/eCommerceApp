@@ -1,12 +1,16 @@
 package com.networking
 
+import android.content.Context
 import com.domain.HiltTestInterface
 import com.domain.usecase.IFeedUseCase
+import com.google.gson.Gson
 import com.networking.api.Api
+import com.networking.mocks.MockApi
 import com.networking.usecase.FeedUseCase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -28,6 +32,16 @@ object NetworkModule {
 
     @Provides
     @Singleton
+    @Named("MockApi")
+    fun providesMockApi(
+        @ApplicationContext context: Context,
+    ): Api {
+        return MockApi(context, Gson())
+    }
+
+    @Provides
+    @Singleton
+    @Named("ServerApi")
     fun providesApi(
         client: Retrofit,
     ): Api {
@@ -46,7 +60,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideFeedUseCase(
-        api: Api,
+        @Named("MockApi") api: Api,
     ): IFeedUseCase {
         return FeedUseCase(api)
     }
