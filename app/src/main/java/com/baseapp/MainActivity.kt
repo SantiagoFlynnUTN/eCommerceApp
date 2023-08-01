@@ -46,7 +46,12 @@ class MainActivity : ComponentActivity() {
 
                     LaunchedEffect(Unit) {
                         val result = withContext(Dispatchers.IO) {
-                            feedUseCase().getOrNull()?.firstOrNull()?.name
+                            val response = feedUseCase()
+                            if (response.isSuccess) {
+                                return@withContext response.getOrNull()?.firstOrNull()?.name
+                            } else {
+                                return@withContext response.exceptionOrNull().toString()
+                            }
                         }
                         text = result ?: ""
                     }

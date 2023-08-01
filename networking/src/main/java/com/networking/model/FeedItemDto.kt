@@ -1,6 +1,7 @@
 package com.networking.model
 
 import com.domain.model.FeedItem
+import com.networking.BaseDto
 import com.networking.JsonKey
 import com.squareup.moshi.Json
 
@@ -9,8 +10,8 @@ data class FeedItemDto(
     val id: Int,
     @Json(name = JsonKey.NAME)
     val name: String,
-) {
-    fun toDomainModel(): FeedItem {
+) : BaseDto<FeedItem> {
+    override fun toDomainModel(): FeedItem {
         return FeedItem(
             id = id,
             name = name,
