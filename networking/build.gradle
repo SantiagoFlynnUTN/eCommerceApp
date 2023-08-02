@@ -17,6 +17,16 @@ android {
         consumerProguardFiles "consumer-rules.pro"
     }
 
+    flavorDimensions "env"
+    productFlavors {
+        offline {
+            dimension "env"
+        }
+        online {
+            dimension "env"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false

@@ -22,6 +22,22 @@ android {
         }
     }
 
+    flavorDimensions "app", "env"
+    productFlavors {
+        offline {
+            dimension "env"
+        }
+        online {
+            dimension "env"
+        }
+        brand1 {
+            dimension "app"
+        }
+        brand2 {
+            dimension "app"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
