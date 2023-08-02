@@ -4,6 +4,7 @@ import android.content.Context
 import com.domain.HiltTestInterface
 import com.domain.usecase.IFeedUseCase
 import com.google.gson.Gson
+import com.mocks.MockProvider
 import com.networking.api.Api
 import com.networking.mocks.MockApi
 import com.networking.usecase.FeedUseCase
@@ -34,9 +35,16 @@ object NetworkModule {
     @Singleton
     @Named("MockApi")
     fun providesMockApi(
-        @ApplicationContext context: Context,
+        mockProvider: MockProvider,
     ): Api {
-        return MockApi(context, Gson())
+        return MockApi(mockProvider)
+    }
+    @Provides
+    @Singleton
+    fun providesMockProvider(
+        @ApplicationContext context: Context,
+    ): MockProvider {
+        return MockProvider(context, Gson())
     }
 
     @Provides
