@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                         text = result ?: ""
                     }
 
-                    Greeting("Hello $text")
+                    Greeting("Hello $text flavorApp: ${BuildConfig.FLAVOR_app} FlavorEnv: ${BuildConfig.FLAVOR_env} ")
                 }
             }
         }

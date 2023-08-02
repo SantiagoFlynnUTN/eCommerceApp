@@ -1,12 +1,10 @@
 plugins {
     id 'com.android.library'
     id 'org.jetbrains.kotlin.android'
-    id 'kotlin-kapt'
-    id("com.google.dagger.hilt.android")
 }
 
 android {
-    namespace 'com.networking'
+    namespace 'com.mocks'
     compileSdk 33
 
     defaultConfig {
@@ -15,20 +13,6 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
-
-        buildFeatures {
-            buildConfig = true
-        }
-    }
-
-    flavorDimensions "env"
-    productFlavors {
-        offline {
-            dimension "env"
-        }
-        online {
-            dimension "env"
-        }
     }
 
     buildTypes {
@@ -47,21 +31,11 @@ android {
 }
 
 dependencies {
-
-    implementation(project(":domain"))
-    offlineImplementation(project(":mocks"))
+    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
 
     implementation 'androidx.core:core-ktx:1.8.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation ("com.google.dagger:hilt-android:${versions.hilt}")
-    kapt("com.google.dagger:hilt-android-compiler:${versions.hilt}")
-    // retrofit
-    implementation "com.squareup.retrofit2:retrofit:${versions.retrofit}"
-    implementation "com.squareup.retrofit2:converter-gson:${versions.retrofit}"
-    // moshi
-    api("com.squareup.moshi:moshi:${versions.moshi}")
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:${versions.moshi}")
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'

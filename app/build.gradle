@@ -20,6 +20,26 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildFeatures {
+            buildConfig = true
+        }
+    }
+
+    flavorDimensions "app", "env"
+    productFlavors {
+        offline {
+            dimension "env"
+        }
+        online {
+            dimension "env"
+        }
+        brand1 {
+            dimension "app"
+        }
+        brand2 {
+            dimension "app"
+        }
     }
 
     buildTypes {
