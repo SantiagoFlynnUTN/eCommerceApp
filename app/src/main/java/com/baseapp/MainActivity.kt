@@ -27,7 +27,7 @@ import javax.inject.Named
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @Inject
-    @Named("hiltAppModule")
+    @Named("hiltStorage")
     protected lateinit var hiltTest: HiltTestInterface
 
     @Inject
@@ -56,7 +56,7 @@ class MainActivity : ComponentActivity() {
                         text = result ?: ""
                     }
 
-                    Greeting("Hello $text flavorApp: ${BuildConfig.FLAVOR_app} FlavorEnv: ${BuildConfig.FLAVOR_env} ")
+                    Greeting("Hello ${hiltTest.getString()} $text flavorApp: ${BuildConfig.FLAVOR_app} FlavorEnv: ${BuildConfig.FLAVOR_env} ")
                 }
             }
         }

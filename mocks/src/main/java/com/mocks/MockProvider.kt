@@ -4,8 +4,10 @@ import android.content.Context
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import okhttp3.ResponseBody
 import retrofit2.Response
 import java.lang.reflect.Type
+import java.net.HttpURLConnection.HTTP_NOT_FOUND
 
 class MockProvider(
     private val context: Context,
@@ -25,6 +27,12 @@ class MockProvider(
 
     suspend fun <T> getSomething(type: Type, fileName: String): Response<T> {
         val mockResponse: T? = getMockResponse(fileName, type)
-        return Response.success(mockResponse)
+        return if (mockResponse != null) {
+            Response.success(mockResponse)
+        } else {
+            val errorCode = HTTP_NOT_FOUND
+            val errorBody = ResponseBody.create(null, "Error fetching json mock")
+            Response.error(errorCode, errorBody)
+        }
     }
 }
