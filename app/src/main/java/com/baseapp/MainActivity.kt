@@ -3,24 +3,32 @@ package com.baseapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import com.baseapp.ui.theme.BaseAppTheme
 import com.domain.HiltTestInterface
 import com.domain.usecase.IFeedUseCase
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -33,6 +41,8 @@ class MainActivity : ComponentActivity() {
     @Inject
     protected lateinit var feedUseCase: IFeedUseCase
 
+    val mainVm: MainVm by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -42,21 +52,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    var text by remember { mutableStateOf("") }
-
-                    LaunchedEffect(Unit) {
-                        val result = withContext(Dispatchers.IO) {
-                            val response = feedUseCase()
-                            if (response.isSuccess) {
-                                return@withContext response.getOrNull()?.firstOrNull()?.name
-                            } else {
-                                return@withContext response.exceptionOrNull().toString()
-                            }
-                        }
-                        text = result ?: ""
-                    }
-
-                    Greeting("Hello $text flavorApp: ${BuildConfig.FLAVOR_app} FlavorEnv: ${BuildConfig.FLAVOR_env} ")
+                    Greeting("", vm = mainVm)
                 }
             }
         }
@@ -64,17 +60,48 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(text: String, modifier: Modifier = Modifier) {
-    Text(
-        text = text,
-        modifier = modifier,
-    )
+fun Greeting(text: String, modifier: Modifier = Modifier, vm: MainVm) {
+    val testValue by vm.testLiveData
+
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+            .background(Color.Green),
+    ) {
+        item {
+            Image(
+                modifier = Modifier.fillMaxWidth().height(200.dp).background(Color.Black),
+                painter = painterResource(id = R.drawable.angus_brother_ic),
+                contentDescription = "Angus Logo",
+            )
+        }
+        item {
+            Button(
+                onClick = { vm.changeLiveData() },
+                modifier = Modifier.width(200.dp).height(120.dp).background(
+                    Color(R.color.black),
+                ),
+            ) {
+                Text(text = "asdasd")
+            }
+            Text(
+                text = testValue,
+                modifier = modifier,
+            )
+            Text(
+                text = "test",
+                modifier = modifier,
+            )
+            Text(
+                text = "test2",
+                modifier = modifier,
+            )
+        }
+    }
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     BaseAppTheme {
-        Greeting("Android")
     }
 }
