@@ -2,6 +2,7 @@ package com.networking.mocks
 
 import com.google.gson.reflect.TypeToken
 import com.mocks.MockProvider
+import com.mocks.MockProvider.Companion.BURGERS_HOME_FEED
 import com.mocks.MockProvider.Companion.FEED_ITEMS_MOCK_FILE
 import com.networking.api.Api
 import com.networking.base.BaseResponse
@@ -13,6 +14,6 @@ class MockApi(private val mockProvider: MockProvider) : Api {
     private inline fun <reified T> typeToken(): Type = object : TypeToken<T>() {}.type
 
     override suspend fun getFeed(): Response<BaseResponse<List<FeedItemDto>>> {
-        return mockProvider.getSomething(typeToken<BaseResponse<List<FeedItemDto>>>(), FEED_ITEMS_MOCK_FILE)
+        return mockProvider.getSomething(typeToken<BaseResponse<List<FeedItemDto>>>(), BURGERS_HOME_FEED)
     }
 }

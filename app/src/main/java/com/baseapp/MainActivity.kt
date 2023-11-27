@@ -1,11 +1,8 @@
 package com.baseapp
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,29 +16,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.baseapp.presentation.sign_in.GoogleAuthUiClient
-import com.baseapp.presentation.sign_in.SignInScreen
+import com.baseapp.presentation.sign_in.LoginScreen
 import com.baseapp.ui.theme.BaseAppTheme
 import com.domain.HiltTestInterface
 import com.domain.usecase.IFeedUseCase
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -60,19 +51,75 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             BaseAppTheme {
+
+                val navController = rememberNavController()
                 // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
-                ) {
-                    //Greeting("", vm = mainVm)
-                    val navController = rememberNavController()
-                    NavHost(navController = navController, startDestination = "sign_in") {
-                        composable("sign_in") {
-                            LoginScreen()
-                        }
-                    }
-                }
+                surfaceComposable()
+            }
+        }
+    }
+}
+
+/*@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun scaffoldComposable(navController: NavHostController) {
+    Scaffold(
+        bottomBar = {
+            if (currentRoute(navController) != "welcome_screen" &&
+                currentRoute(navController) != "signin_screen" &&
+                currentRoute(navController) != "signup_screen"
+            ) {
+                BottomNavigationBar(
+                    items = listOf(
+
+                        BottomNavItem("Market", "market_screen", Icons.Default.Home),
+                        BottomNavItem("Search", "search_screen", Icons.Default.Search),
+                        BottomNavItem(
+                            "Favorite",
+                            "favorites_screen",
+                            Icons.Default.Favorite,
+                        ),
+                        BottomNavItem(
+                            "Portfolio",
+                            "portfolio_screen",
+                            Icons.Default.List,
+                        ),
+                        BottomNavItem(
+                            "Settings",
+                            "settings_screen",
+                            Icons.Default.Settings,
+                        ),
+
+                        ),
+                    navController = navController,
+                    onItemClick = {
+                        navController.popBackStack()
+                        navController.navigate(it.route)
+                    },
+                )
+            }
+        },
+    ) {
+        SetupNavGraph(navController)
+    }
+}*/
+
+@Composable
+private fun currentRoute(navController: NavController): String? {
+    return navController.currentBackStackEntryAsState().value?.destination?.route
+}
+
+@Composable
+fun surfaceComposable() {
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background,
+    ) {
+        //Greeting("", vm = mainVm)
+        val navController = rememberNavController()
+        NavHost(navController = navController, startDestination = "sign_in") {
+            composable("sign_in") {
+                LoginScreen()
             }
         }
     }

@@ -10,11 +10,14 @@ data class FeedItemDto(
     val id: Int,
     @Json(name = JsonKey.NAME)
     val name: String,
+    @Json(name = JsonKey.IMG)
+    val img: String,
 ) : BaseDto<FeedItem> {
     override fun toDomainModel(): FeedItem {
         return FeedItem(
             id = id,
             name = name,
+            img = img
         )
     }
 }

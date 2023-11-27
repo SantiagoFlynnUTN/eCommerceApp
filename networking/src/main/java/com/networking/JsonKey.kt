@@ -1,6 +1,7 @@
 package com.networking
 
 internal object JsonKey {
+    const val IMG = "img"
     const val NAME = "name"
     const val ID = "id"
     const val PATH = "path"

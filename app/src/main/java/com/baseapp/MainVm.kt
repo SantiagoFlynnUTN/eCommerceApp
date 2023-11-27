@@ -8,8 +8,6 @@ import com.baseapp.presentation.sign_in.SignInResult
 import com.baseapp.presentation.sign_in.SignInState
 import com.domain.usecase.IAuthenticationUseCase
 import com.domain.usecase.IFeedUseCase
-import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.identity.SignInClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow

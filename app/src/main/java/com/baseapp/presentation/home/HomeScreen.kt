@@ -1,4 +1,4 @@
-package com.baseapp
+package com.baseapp.presentation.home
 
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -11,7 +11,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.lifecycle.lifecycleScope
+import com.baseapp.MainVm
+import com.baseapp.R
 import com.baseapp.presentation.sign_in.GoogleAuthUiClient
 import com.baseapp.presentation.sign_in.SignInScreen
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -19,7 +20,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.launch
 
 @Composable
-fun LoginScreen() {
+fun HomeScreen() {
     val context = LocalContext.current
     val viewModel : MainVm = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
@@ -60,12 +61,4 @@ fun LoginScreen() {
         }
     }
 
-    SignInScreen(
-        state = state,
-        onSignInClick = {
-            coroutineScope.launch {
-                launcher.launch(googleAuthUiClient.signIn())
-            }
-        }
-    )
 }
