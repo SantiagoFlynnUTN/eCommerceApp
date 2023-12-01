@@ -3,7 +3,6 @@ package com.baseapp
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -28,7 +27,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.baseapp.presentation.home.HomeScreen
 import com.baseapp.presentation.sign_in.LoginScreen
+import com.baseapp.presentation.sign_in.LoginVm
 import com.baseapp.ui.theme.BaseAppTheme
 import com.domain.HiltTestInterface
 import com.domain.usecase.IFeedUseCase
@@ -45,8 +46,6 @@ class MainActivity : ComponentActivity() {
     @Inject
     protected lateinit var feedUseCase: IFeedUseCase
 
-    val mainVm: MainVm by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -54,7 +53,7 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
                 // A surface container using the 'background' color from the theme
-                surfaceComposable()
+                HomeScreen()
             }
         }
     }
@@ -126,7 +125,7 @@ fun surfaceComposable() {
 }
 
 @Composable
-fun Greeting(text: String, modifier: Modifier = Modifier, vm: MainVm) {
+fun Greeting(text: String, modifier: Modifier = Modifier, vm: LoginVm) {
     val testValue by vm.testLiveData.observeAsState()
 
     LazyColumn(

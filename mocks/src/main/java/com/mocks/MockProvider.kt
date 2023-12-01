@@ -14,7 +14,7 @@ class MockProvider(
 
     companion object {
         const val FEED_ITEMS_MOCK_FILE = "mock_feed_data.json"
-        const val BURGERS_HOME_FEED = "mock_feed_data.json"
+        const val BURGERS_HOME_FEED = "mock_burgers_feed.json"
     }
 
     private suspend fun <T> getMockResponse(fileName: String, type: Type): T? = withContext(

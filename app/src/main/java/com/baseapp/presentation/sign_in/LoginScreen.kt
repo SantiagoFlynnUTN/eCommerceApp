@@ -11,7 +11,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.baseapp.MainVm
 import com.baseapp.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -20,7 +19,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun LoginScreen() {
     val context = LocalContext.current
-    val viewModel : MainVm = hiltViewModel()
+    val viewModel : LoginVm = hiltViewModel()
     val state by viewModel.state.collectAsStateWithLifecycle()
     val googleAuthUiClient by lazy {
         GoogleAuthUiClient(

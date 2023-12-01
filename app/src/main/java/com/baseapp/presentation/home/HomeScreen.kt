@@ -4,17 +4,28 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.baseapp.MainVm
+import com.baseapp.presentation.sign_in.LoginVm
 import com.baseapp.R
 import com.baseapp.presentation.sign_in.GoogleAuthUiClient
-import com.baseapp.presentation.sign_in.SignInScreen
+import com.domain.model.FeedItem
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import kotlinx.coroutines.launch
@@ -22,43 +33,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun HomeScreen() {
     val context = LocalContext.current
-    val viewModel : MainVm = hiltViewModel()
-    val state by viewModel.state.collectAsStateWithLifecycle()
-    val googleAuthUiClient by lazy {
-        GoogleAuthUiClient(
-            context = context,
-            client = GoogleSignIn.getClient(context, GoogleSignInOptions.Builder(
-                GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(context.getString(R.string.web_client_id))
-                .requestEmail()
-                .build())
-        )
-    }
+    val viewModel : HomeVm = hiltViewModel()
     val coroutineScope = rememberCoroutineScope()
+    val burgers = viewModel.burgers.collectAsStateWithLifecycle()
 
-    val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult(),
-        onResult = { result ->
-            if(result.resultCode == ComponentActivity.RESULT_OK) {
-                coroutineScope.launch {
-                    val signInResult = googleAuthUiClient.signInWithIntent(
-                        intent = result.data ?: return@launch
-                    )
-
-                    viewModel.onSignInResult(signInResult)
-                }
+    LazyColumn(modifier = Modifier
+        .fillMaxSize()) {
+        items(items = burgers.value) { burger ->
+            Button(modifier = Modifier.size(300.dp, 65.dp),
+                onClick = {goCheckout(burger)}) {
+                Text(text = burger?.name ?: "not found")
             }
         }
-    )
-
-    LaunchedEffect(key1 = state.isSignInSuccessful) {
-        if(state.isSignInSuccessful) {
-            Toast.makeText(
-                context,
-                "Sign in successful",
-                Toast.LENGTH_LONG
-            ).show()
-        }
     }
+}
+
+fun goCheckout(burger: FeedItem?) {
 
 }

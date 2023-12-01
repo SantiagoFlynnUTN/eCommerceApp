@@ -1,11 +1,9 @@
-package com.baseapp
+package com.baseapp.presentation.sign_in
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.baseapp.presentation.sign_in.SignInResult
-import com.baseapp.presentation.sign_in.SignInState
 import com.domain.usecase.IAuthenticationUseCase
 import com.domain.usecase.IFeedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +15,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MainVm @Inject constructor(
+class LoginVm @Inject constructor(
     private val feedUseCase: IFeedUseCase,
     private val authenticationUseCase: IAuthenticationUseCase,
 ) : ViewModel() {
