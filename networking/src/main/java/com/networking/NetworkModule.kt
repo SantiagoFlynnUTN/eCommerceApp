@@ -2,9 +2,11 @@ package com.networking
 
 import com.domain.HiltTestInterface
 import com.domain.usecase.IAuthenticationUseCase
+import com.domain.usecase.ICreateNewClientUseCase
 import com.domain.usecase.IFeedUseCase
 import com.networking.api.Api
 import com.networking.firebase.AuthenticationUseCase
+import com.networking.usecase.CreateClientUseCase
 import com.networking.usecase.FeedUseCase
 import dagger.Module
 import dagger.Provides
@@ -30,6 +32,14 @@ object NetworkModule {
         api: Api,
     ): IFeedUseCase {
         return FeedUseCase(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideCreateClientUseCase(
+        api: Api,
+    ): ICreateNewClientUseCase {
+        return CreateClientUseCase(api)
     }
 
     @Provides

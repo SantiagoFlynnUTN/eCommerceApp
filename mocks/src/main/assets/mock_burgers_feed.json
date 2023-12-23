@@ -1,0 +1,18 @@
+{
+  "path": "",
+  "version": "",
+  "status": "",
+  "timestamp": "",
+  "data": [
+    {
+      "id": 1,
+      "name": "Cuarto de libra",
+      "img": "https://app.pedidosbcn.com/img/productos/00006313.jpg"
+    },
+    {
+      "id": 2,
+      "name": "Cheeseburger",
+      "img": "https://app.pedidosbcn.com/img/productos/00006313.jpg"
+    }
+  ]
+}

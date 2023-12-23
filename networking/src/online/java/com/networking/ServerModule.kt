@@ -27,7 +27,8 @@ object ServerModule {
     @Singleton
     fun provideGsonClient(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("http://$LOCALHOST")
+            //.baseUrl("http://$LOCALHOST/")
+            .baseUrl("https://api.mercadopago.com/v1/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
